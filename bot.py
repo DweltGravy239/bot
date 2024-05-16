@@ -27,23 +27,23 @@ def start(update: Update, context):
 
 def execute_command(host, port, username, password, command):
     try:
-        logging.info(f"Connecting to {host} on port {port} with username {username}")
+        update.message.reply_text(f"Connecting to {host} on port {port} with username {username}")
         client = paramiko.SSHClient()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         client.connect(hostname=host, username=username, password=password, port=port)
 
-        logging.info(f"Executing command: {command}")
+        update.message.reply_text(f"Executing command: {command}")
         stdin, stdout, stderr = client.exec_command(command)
         output = stdout.read().decode('utf-8')
         error = stderr.read().decode('utf-8')
         
-        logging.info(f"Command output: {output}")
-        logging.error(f"Command error: {error}")
+        update.message.reply_text(f"Command output: {output}")
+        update.message.reply_text(f"Command error: {error}")
         
         client.close()
         return output, error
     except Exception as e:
-        logging.error(f"Error connecting or executing command: {e}")
+        update.message.reply_text(f"Error connecting or executing command: {e}")
         return None, str(e)
     
     return output, error
