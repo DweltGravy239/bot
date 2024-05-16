@@ -10,7 +10,7 @@ from psycopg2 import Error
 import subprocess
 
 load_dotenv()
-TOKEN = '7042933739:AAGAm8p_HE7HsAVpN--vrUK-AsR_oIl5PP8
+
 
 
 # Подключаем логирование
@@ -37,8 +37,8 @@ def execute_command(host, port, username, password, command):
     client.close()
     
     return output, error
-
-host = os.environ.get("RM_HOST")
+TOKEN = os.environ.get("TOKEN")
+host = os.environ.get("RM_HOST1")
 port = os.environ.get("RM_PORT")
 username = os.environ.get("RM_USER")
 password = os.environ.get("RM_PASSWORD")
