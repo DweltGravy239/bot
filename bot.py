@@ -16,7 +16,7 @@ load_dotenv()
 
 # Подключаем логирование
 logging.basicConfig(
-    filename='logfile.txt', format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG
+    filename='logfile.txt', level=logging.DEBUG
 )
 
 logger = logging.getLogger(__name__)
