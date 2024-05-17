@@ -150,7 +150,7 @@ def get_services(update: Update, context):
     update.message.reply_text(output)
 def get_logs(update: Update, context):
     
-    output = execute_command(host, port, username, password, "cat /var/log/postgresql/postgresql.log | grep repl | tail -n 15")
+    output = execute_command(host, port, username, password, "cat /var/log/postgresql/postgresql-14-main.log | grep repl | tail -n 15")
     update.message.reply_text(output)
 
 
