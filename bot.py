@@ -226,7 +226,7 @@ def handle_confirmation(update: Update, context: CallbackContext) -> int:
 def get_repl_logs(update: Update, context: CallbackContext):
     user = update.effective_user
     logging.info(f'Calling command /get_repl_logs - User:{user.full_name}')
-    command = "cat /var/log/postgresql/postgresql.log | grep repl | tail -n 15"
+    command = "cat /var/log/postgresql/postgresql-14-main.log | grep replication | head -10"
     res = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     if res.returncode != 0 or res.stderr.decode():
         update.message.reply_text("Can not open log file!")
@@ -345,7 +345,7 @@ def main():
     dp.add_handler(CommandHandler('get_ss', get_ss))
     dp.add_handler(conv_handler_get_list)
     dp.add_handler(CommandHandler('get_services', get_services))
-    dp.add_handler(CommandHandler('get_repl_logs', get_logs))
+    dp.add_handler(CommandHandler('get_repl_logs', get_repl_logs))
     dp.add_handler(CommandHandler('get_emails', find_email))
     dp.add_handler(CommandHandler('get_phones', find_phone))
 
