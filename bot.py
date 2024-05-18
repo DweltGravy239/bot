@@ -104,10 +104,13 @@ def get_apt_list(update: Update, context: CallbackContext):
     user_input = update.message.text.strip()
     if user_input.lower() == 'all':
         output = execute_command(host, port, username, password, "apt list | tail -n 10")
+        return ConversationHandler.END
     else:
         command = f"apt list --installed | grep {user_input} | tail -n 10"
         output = execute_command(host, port, username, password, command)
     update.message.reply_text(output)
+        return ConversationHandler.END
+
 
 def search_package(update: Update, context: CallbackContext):
     user_input = update.message.text
@@ -214,24 +217,16 @@ def handle_confirmation(update: Update, context: CallbackContext) -> int:
                 cursor.execute('INSERT INTO email (email) VALUES (%s) ON CONFLICT DO NOTHING', (email,))
             connection.commit()
             update.message.reply_text("Адреса успешно записаны в базу данных.")
+            return ConversationHandler.END
         except Exception as error:
             logging.error(f'Ошибка при работе с PostgreSQL {error}')
             update.message.reply_text('Произошла ошибка при записи в базу данных.')
     elif user_input.lower() == 'no':
         update.message.reply_text("Хорошо, адреса не будут записаны в базу данных.")
+        return ConversationHandler.END
     else:
         update.message.reply_text('Вы ввели недопустимый символ')
     return ConversationHandler.END
-
-def get_repl_logs(update: Update, context: CallbackContext):
-    user = update.effective_user
-    logging.info(f'Calling command /get_repl_logs - User:{user.full_name}')
-    command = "cat /var/log/postgresql/postgresql-14-main.log | grep replication | head -10"
-    res = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    if res.returncode != 0 or res.stderr.decode():
-        update.message.reply_text("Can not open log file!")
-    else:
-        update.message.reply_text(res.stdout.decode().strip('\n'))
 
 def verify_password(update: Update, context: CallbackContext) -> int:
     user_input = update.message.text
@@ -274,11 +269,14 @@ def phone_confirm(update: Update, context: CallbackContext) -> int:
                 cursor.execute('INSERT INTO phone (phonenumber) VALUES (%s) ON CONFLICT DO NOTHING', (phone,))
             connection.commit()
             update.message.reply_text("Телефонные номера успешно записаны в базу данных.")
+            return ConversationHandler.END
         except Exception as error:
             logging.error(f'Ошибка при работе с PostgreSQL {error}')
             update.message.reply_text('Произошла ошибка при записи в базу данных.')
+            return ConversationHandler.END
     elif user_input.lower() == 'no':
         update.message.reply_text("Хорошо, номера не будут записаны в базу данных.")
+        return ConversationHandler.END
     else:
         update.message.reply_text('Вы ввели недопустимый символ')
     return ConversationHandler.END
