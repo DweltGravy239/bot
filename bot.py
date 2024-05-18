@@ -60,18 +60,12 @@ def release(update: Update, context: CallbackContext):
         update.message.reply_text(output)
 
 def uname(update: Update, context: CallbackContext):
-    output, error = execute_command(host, port, username, password, "uname -a")
-    if error:
-        update.message.reply_text(error)
-    else:
-        update.message.reply_text(output)
+    output = execute_command(host, port, username, password, "uname")
+    update.message.reply_text(output)
     
 def uptime(update: Update, context: CallbackContext):
-    output, error = execute_command(host, port, username, password, "uptime")
-    if error:
-        update.message.reply_text(error)
-    else:
-        update.message.reply_text(output)
+    output = execute_command(host, port, username, password, "uptime")
+    update.message.reply_text(output)
 
 def df(update: Update, context: CallbackContext):
     output, error = execute_command(host, port, username, password, "df -h")
