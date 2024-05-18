@@ -32,11 +32,11 @@ def execute_command(host, port, username, password, command):
     
     stdin, stdout, stderr = client.exec_command(command)
     output = stdout.read().decode('utf-8')
-    error = stderr.read().decode('utf-8')
+    
     
     client.close()
     
-    return output, error
+    return output
 
 # Загрузка учетных данных для удаленного сервера из переменных окружения
 host = os.environ.get("RM_HOST1")
