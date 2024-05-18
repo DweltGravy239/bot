@@ -389,7 +389,7 @@ def main():
     dp.add_handler(CommandHandler('get_ss', get_ss))
     dp.add_handler(conv_handler_get_list)
     dp.add_handler(CommandHandler('get_services', get_services))
-    dp.add_handler(CommandHandler('get_repl_logs', get_repl_logs))
+    dp.add_handler(CommandHandler('get_repl_logs', get_logs))
     dp.add_handler(CommandHandler('get_emails', find_email))
     dp.add_handler(CommandHandler('get_phones', find_phone))
 
