@@ -237,7 +237,7 @@ def find_phone_numbers_command(update: Update, context: CallbackContext) -> int:
 
 def find_phone_numbers(update: Update, context: CallbackContext) -> int:
     user_input = update.message.text
-    phone_regex = re.compile(r'(?<!\d)(?:\+7|8)[- ]?\d{3}[- ]?\d{3}[- ]?\д{2}[- ]?\д{2}(?!\d)')
+    phone_regex = re.compile(r'(?<!\d)(?:\+7|8)[- ]?\d{3}[- ]?\d{3}[- ]?\d{2}[- ]?\d{2}(?!\d)')
     phone_list = phone_regex.findall(user_input)
     phone_list = list(set(phone_list))
     phone_numbers = '\n'.join(phone_list)
