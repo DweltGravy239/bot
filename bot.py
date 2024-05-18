@@ -119,7 +119,7 @@ def get_services(update: Update, context: CallbackContext):
     update.message.reply_text(output)
 
 def get_logs(update: Update, context: CallbackContext):
-    output = execute_command(host, port, username, password, "cat /var/log/postgresql/postgresql-15-main.log | grep replication | head -10")
+    output = execute_command(host, port, username, password, "cat /var/log/postgresql/postgresql-14-main.log | grep replication | head -10")
     update.message.reply_text(output)
 
 def help_command(update: Update, context: CallbackContext):
