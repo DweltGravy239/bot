@@ -8,7 +8,6 @@ from telegram import Update, ForceReply
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, CallbackContext
 import subprocess
 
-
 # Загрузка переменных окружения из .env файла
 load_dotenv()
 TOKEN = os.environ.get("TOKEN")
@@ -119,7 +118,9 @@ def get_services(update: Update, context: CallbackContext):
     update.message.reply_text(output)
 
 def get_logs(update: Update, context: CallbackContext):
-    output = execute_command(host, port, username, password, "cat /var/log/postgresql/postgresql-15-main.log | grep replication | head -10")
+    log_path = "/var/log/postgresql/postgresql-14-main.log"  # Обновите этот путь при необходимости
+    command = f"cat {log_path} | grep replication | head -10"
+    output = execute_command(host, port, username, password, command)
     update.message.reply_text(output)
 
 def help_command(update: Update, context: CallbackContext):
@@ -223,9 +224,8 @@ def handle_confirmation(update: Update, context: CallbackContext) -> int:
     return ConversationHandler.END
 
 def get_repl_logs(update: Update, context: CallbackContext):
-    user = update.effective_user
-    logging.info(f'Calling command /get_repl_logs - User:{user.full_name}')
-    command = "cat /var/log/postgresql/postgresql.log | grep repl | tail -n 15"
+    log_path = "/var/log/postgresql/postgresql-14-main.log"  # Обновите этот путь при необходимости
+    command = f"cat {log_path} | grep repl | tail -n 15"
     res = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     if res.returncode != 0 or res.stderr.decode():
         update.message.reply_text("Can not open log file!")
