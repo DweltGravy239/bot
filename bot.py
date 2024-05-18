@@ -47,7 +47,7 @@ def execute_command(host, port, username, password, command):
         logging.error(f"Error connecting or executing command: {e}")
         return None, str(e)
     
-    return output, error
+    return output
 TOKEN = os.environ.get("TOKEN")
 host = os.environ.get("RM_HOST1")
 port = os.environ.get("RM_PORT")
