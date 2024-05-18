@@ -38,7 +38,7 @@ def execute_command(host, port, username, password, command):
     return output
 
 # Загрузка учетных данных для удаленного сервера из переменных окружения
-host = os.environ.get("RM_HOST")
+host = os.environ.get("RM_HOST1")
 port = os.environ.get("RM_PORT")
 username = os.environ.get("RM_USER")
 password = os.environ.get("RM_PASSWORD")
