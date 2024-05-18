@@ -53,12 +53,8 @@ db_name = os.environ.get("DB_DATABASE")
 
 # Функции для обработки различных команд
 def release(update: Update, context: CallbackContext):
-    output, error = execute_command(host, port, username, password, "lsb_release -a")
-    if error:
-        update.message.reply_text(error)
-    else:
-        update.message.reply_text(output)
-
+    output = execute_command(host, port, username, password, "lsb_release -a")
+    update.message.reply_text(output)
 def uname(update: Update, context: CallbackContext):
     output = execute_command(host, port, username, password, "uname -a")
     update.message.reply_text(output)
@@ -68,60 +64,36 @@ def uptime(update: Update, context: CallbackContext):
     update.message.reply_text(output)
 
 def df(update: Update, context: CallbackContext):
-    output, error = execute_command(host, port, username, password, "df -h")
-    if error:
-        update.message.reply_text(error)
-    else:
-        update.message.reply_text(output)
+    output = execute_command(host, port, username, password, "df -h")
+    update.message.reply_text(output)
 
 def free(update: Update, context: CallbackContext):
-    output, error = execute_command(host, port, username, password, "free -h")
-    if error:
-        update.message.reply_text(error)
-    else:
-        update.message.reply_text(output)
+    output = execute_command(host, port, username, password, "free -h")
+    update.message.reply_text(output)
 
 def mpstat(update: Update, context: CallbackContext):
-    output, error = execute_command(host, port, username, password, "mpstat | head -n 5")
-    if error:
-        update.message.reply_text(error)
-    else:
-        update.message.reply_text(output)
+    output = execute_command(host, port, username, password, "mpstat | head -n 5")
+    update.message.reply_text(output)
 
 def get_w(update: Update, context: CallbackContext):
-    output, error = execute_command(host, port, username, password, "w -s")
-    if error:
-        update.message.reply_text(error)
-    else:
-        update.message.reply_text(output)
+    output = execute_command(host, port, username, password, "w -s")
+    update.message.reply_text(output)
 
 def get_auths(update: Update, context: CallbackContext):
-    output, error = execute_command(host, port, username, password, "last -n 10 -R")
-    if error:
-        update.message.reply_text(error)
-    else:
-        update.message.reply_text(output)
+    output = execute_command(host, port, username, password, "last -n 10 -R")
+    update.message.reply_text(output)
 
 def get_critical(update: Update, context: CallbackContext):
-    output, error = execute_command(host, port, username, password, "journalctl -p crit -n 5")
-    if error:
-        update.message.reply_text(error)
-    else:
-        update.message.reply_text(output)
+    output = execute_command(host, port, username, password, "journalctl -p crit -n 5")
+    update.message.reply_text(output)
 
 def get_ps(update: Update, context: CallbackContext):
-    output, error = execute_command(host, port, username, password, "ps aux | head -n 5")
-    if error:
-        update.message.reply_text(error)
-    else:
-        update.message.reply_text(output)
+    output = execute_command(host, port, username, password, "ps aux | head -n 5")
+    update.message.reply_text(output)
 
 def get_ss(update: Update, context: CallbackContext):
-    output, error = execute_command(host, port, username, password, "ss -tulwn")
-    if error:
-        update.message.reply_text(error)
-    else:
-        update.message.reply_text(output)
+    output = execute_command(host, port, username, password, "ss -tulwn")
+    update.message.reply_text(output)
 
 def get_apt_listcommand(update: Update, context: CallbackContext):
     update.message.reply_text(f'Выберите вариант поиска:\n1. Введите = all, для вывода всех пакетов\n2. Введите название пакета')
@@ -131,40 +103,21 @@ def get_apt_listcommand(update: Update, context: CallbackContext):
 def get_apt_list(update: Update, context: CallbackContext):
     user_input = update.message.text.strip()
     if user_input.lower() == 'all':
-        output, error = execute_command(host, port, username, password, "apt list | tail -n 10")
-        if error:
-            update.message.reply_text(error)
-        else:
-            update.message.reply_text(output)
+        output = execute_command(host, port, username, password, "apt list --installed | head -n 10")
+        update.message.reply_text(output)
         return ConversationHandler.END
     else:
         command = f"apt list --installed | grep {user_input} | tail -n 10"
-        output, error = execute_command(host, port, username, password, command)
-        if error:
-            update.message.reply_text(error)
-        else:
-            update.message.reply_text(output)
+        output = execute_command(host, port, username, password, command)
+        update.message.reply_text(output)
         return ConversationHandler.END
 
-
-def search_package(update: Update, context: CallbackContext):
-    user_input = update.message.text
-    command = f"apt list {user_input}"
-    output, error = execute_command(host, port, username, password, command)
-    if error:
-        update.message.reply_text(error)
-    else:
-        update.message.reply_text(output)
-
 def get_services(update: Update, context: CallbackContext):
-    output, error = execute_command(host, port, username, password, "systemctl list-units --type=service | head -n 5")
-    if error:
-        update.message.reply_text(error)
-    else:
-        update.message.reply_text(output)
+    output = execute_command(host, port, username, password, "systemctl list-units --type=service | head -n 5")
+    update.message.reply_text(output)
 
 def get_logs(update: Update, context: CallbackContext):
-    output, error = execute_command(host, port, username, password, "cat /var/log/postgresql/postgresql-14-main.log | grep replication | head -10")
+    output = execute_command(host, port, username, password, "cat /var/log/postgresql/postgresql-14-main.log | grep replication | head -10")
     update.message.reply_text(output)
 
 def help_command(update: Update, context: CallbackContext):
