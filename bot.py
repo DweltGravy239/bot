@@ -53,47 +53,81 @@ db_name = os.environ.get("DB_DATABASE")
 
 # Функции для обработки различных команд
 def release(update: Update, context: CallbackContext):
-    output = execute_command(host, port, username, password, "lsb_release -a")
-    update.message.reply_text(output)
+    output, error = execute_command(host, port, username, password, "lsb_release -a")
+    if error:
+        update.message.reply_text(error)
+    else:
+        update.message.reply_text(output)
 
 def uname(update: Update, context: CallbackContext):
-    output = execute_command(host, port, username, password, "uname -a")
+    output, error = execute_command(host, port, username, password, "uname -a")
+    if error:
+        update.message.reply_text(error)
+    else:
+        update.message.reply_text(output)
     
 def uptime(update: Update, context: CallbackContext):
-    output = execute_command(host, port, username, password, "uptime")
-    update.message.reply_text(output)
+    output, error = execute_command(host, port, username, password, "uptime")
+    if error:
+        update.message.reply_text(error)
+    else:
+        update.message.reply_text(output)
 
 def df(update: Update, context: CallbackContext):
-    output = execute_command(host, port, username, password, "df -h")
-    update.message.reply_text(output)
+    output, error = execute_command(host, port, username, password, "df -h")
+    if error:
+        update.message.reply_text(error)
+    else:
+        update.message.reply_text(output)
 
 def free(update: Update, context: CallbackContext):
-    output = execute_command(host, port, username, password, "free -h")
-    update.message.reply_text(output)
+    output, error = execute_command(host, port, username, password, "free -h")
+    if error:
+        update.message.reply_text(error)
+    else:
+        update.message.reply_text(output)
 
 def mpstat(update: Update, context: CallbackContext):
-    output = execute_command(host, port, username, password, "mpstat | head -n 5")
-    update.message.reply_text(output)
+    output, error = execute_command(host, port, username, password, "mpstat | head -n 5")
+    if error:
+        update.message.reply_text(error)
+    else:
+        update.message.reply_text(output)
 
 def get_w(update: Update, context: CallbackContext):
-    output = execute_command(host, port, username, password, "w -s")
-    update.message.reply_text(output)
+    output, error = execute_command(host, port, username, password, "w -s")
+    if error:
+        update.message.reply_text(error)
+    else:
+        update.message.reply_text(output)
 
 def get_auths(update: Update, context: CallbackContext):
-    output = execute_command(host, port, username, password, "last -n 10 -R")
-    update.message.reply_text(output)
+    output, error = execute_command(host, port, username, password, "last -n 10 -R")
+    if error:
+        update.message.reply_text(error)
+    else:
+        update.message.reply_text(output)
 
 def get_critical(update: Update, context: CallbackContext):
-    output = execute_command(host, port, username, password, "journalctl -p crit -n 5")
-    update.message.reply_text(output)
+    output, error = execute_command(host, port, username, password, "journalctl -p crit -n 5")
+    if error:
+        update.message.reply_text(error)
+    else:
+        update.message.reply_text(output)
 
 def get_ps(update: Update, context: CallbackContext):
-    output = execute_command(host, port, username, password, "ps aux | head -n 5")
-    update.message.reply_text(output)
+    output, error = execute_command(host, port, username, password, "ps aux | head -n 5")
+    if error:
+        update.message.reply_text(error)
+    else:
+        update.message.reply_text(output)
 
 def get_ss(update: Update, context: CallbackContext):
-    output = execute_command(host, port, username, password, "ss -tulwn")
-    update.message.reply_text(output)
+    output, error = execute_command(host, port, username, password, "ss -tulwn")
+    if error:
+        update.message.reply_text(error)
+    else:
+        update.message.reply_text(output)
 
 def get_apt_listcommand(update: Update, context: CallbackContext):
     update.message.reply_text(f'Выберите вариант поиска:\n1. Введите = all, для вывода всех пакетов\n2. Введите название пакета')
@@ -103,28 +137,44 @@ def get_apt_listcommand(update: Update, context: CallbackContext):
 def get_apt_list(update: Update, context: CallbackContext):
     user_input = update.message.text.strip()
     if user_input.lower() == 'all':
-        output = execute_command(host, port, username, password, "apt list | tail -n 10")
+        output, error = execute_command(host, port, username, password, "apt list | tail -n 10")
+        if error:
+            update.message.reply_text(error)
+        else:
+            update.message.reply_text(output)
         return ConversationHandler.END
     else:
         command = f"apt list --installed | grep {user_input} | tail -n 10"
-        output = execute_command(host, port, username, password, command)
-    update.message.reply_text(output)
+        output, error = execute_command(host, port, username, password, command)
+        if error:
+            update.message.reply_text(error)
+        else:
+            update.message.reply_text(output)
         return ConversationHandler.END
 
 
 def search_package(update: Update, context: CallbackContext):
     user_input = update.message.text
     command = f"apt list {user_input}"
-    output = execute_command(host, port, username, password, command)
-    update.message.reply_text(output)
+    output, error = execute_command(host, port, username, password, command)
+    if error:
+        update.message.reply_text(error)
+    else:
+        update.message.reply_text(output)
 
 def get_services(update: Update, context: CallbackContext):
-    output = execute_command(host, port, username, password, "systemctl list-units --type=service | head -n 5")
-    update.message.reply_text(output)
+    output, error = execute_command(host, port, username, password, "systemctl list-units --type=service | head -n 5")
+    if error:
+        update.message.reply_text(error)
+    else:
+        update.message.reply_text(output)
 
 def get_logs(update: Update, context: CallbackContext):
-    output = execute_command(host, port, username, password, "cat /var/log/postgresql/postgresql-14-main.log | grep replication | head -10")
-    update.message.reply_text(output)
+    output, error = execute_command(host, port, username, password, "cat /var/log/postgresql/postgresql-14-main.log | grep replication | head -10")
+    if error:
+        update.message.reply_text(error)
+    else:
+        update.message.reply_text(output)
 
 def help_command(update: Update, context: CallbackContext):
     update.message.reply_text(
@@ -190,7 +240,6 @@ def find_email_address_command(update: Update, context: CallbackContext) -> int:
     update.message.reply_text(f'Введите адрес электронной почты для поиска:')
     return INPUT_TEXT_EMAIL
 
-
 def find_email_address(update: Update, context: CallbackContext) -> int:
     user_input = update.message.text
     email_regex = re.compile(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b')
@@ -217,10 +266,10 @@ def handle_confirmation(update: Update, context: CallbackContext) -> int:
                 cursor.execute('INSERT INTO email (email) VALUES (%s) ON CONFLICT DO NOTHING', (email,))
             connection.commit()
             update.message.reply_text("Адреса успешно записаны в базу данных.")
-            return ConversationHandler.END
         except Exception as error:
             logging.error(f'Ошибка при работе с PostgreSQL {error}')
             update.message.reply_text('Произошла ошибка при записи в базу данных.')
+        return ConversationHandler.END
     elif user_input.lower() == 'no':
         update.message.reply_text("Хорошо, адреса не будут записаны в базу данных.")
         return ConversationHandler.END
@@ -242,10 +291,9 @@ def find_phone_numbers_command(update: Update, context: CallbackContext) -> int:
     update.message.reply_text(f'Введите текст для поиска телефонных номеров: ')
     return INPUT_TEXT_PHONE
 
-
 def find_phone_numbers(update: Update, context: CallbackContext) -> int:
     user_input = update.message.text
-    phone_regex = re.compile(r'(?<!\d)(?:\+7|8)[- ]?\d{3}[- ]?\d{3}[- ]?\d{2}[- ]?\d{2}(?!\d)')
+    phone_regex = re.compile(r'(?<!\d)(?:\+7|8)[- ]?\d{3}[- ]?\d{3}[- ]?\д{2}[- ]?\д{2}(?!\d)')
     phone_list = phone_regex.findall(user_input)
     phone_list = list(set(phone_list))
     phone_numbers = '\n'.join(phone_list)
@@ -269,11 +317,10 @@ def phone_confirm(update: Update, context: CallbackContext) -> int:
                 cursor.execute('INSERT INTO phone (phonenumber) VALUES (%s) ON CONFLICT DO NOTHING', (phone,))
             connection.commit()
             update.message.reply_text("Телефонные номера успешно записаны в базу данных.")
-            return ConversationHandler.END
         except Exception as error:
             logging.error(f'Ошибка при работе с PostgreSQL {error}')
             update.message.reply_text('Произошла ошибка при записи в базу данных.')
-            return ConversationHandler.END
+        return ConversationHandler.END
     elif user_input.lower() == 'no':
         update.message.reply_text("Хорошо, номера не будут записаны в базу данных.")
         return ConversationHandler.END
@@ -322,7 +369,6 @@ def main():
         },
         fallbacks=[]
     )
-
 
     # Register command handlers
     dp.add_handler(CommandHandler("start", start))
